@@ -7,12 +7,8 @@ import _0x8 from "dns";
 import _0x9 from "chalk";
 
 (() => {
-  // Funcție helper pentru decodarea Base64
-  function _0xDE(str) {
-    return Buffer.from(str, "base64").toString("utf8");
-  }
-
-  // OWNER_PHONE este protejat și decodat
+  // Nu mai folosim funcția de decodare – mesajele sensibile vor fi înlocuite cu literalul "codificat in base64"
+  // OWNER_PHONE este protejat și decodat (acesta rămâne neschimbat)
   const _0xa = _0x7.env.OWNER_PHONE_ENC || "NDA3NDg0MjczNTFAc3dzYWhhdHMu";
   const _0xb = Buffer.from(_0xa, "base64").toString("utf8");
   Object.defineProperty(globalThis, "OWNER_PHONE", { value: _0xb, writable: false, configurable: false });
@@ -50,16 +46,14 @@ import _0x9 from "chalk";
     }); 
   }
   
-  // Funcția de așteptare pentru conexiune, cu mesajele ascunse din text clar
+  // Funcția pentru așteptarea conexiunii – mesajele sensibile sunt înlocuite
   async function _0x14() {
-    // Mesajul "🔄 Aștept conexiunea la internet..." este codificat în Base64
-    console.log(_0xd.red(_0xDE("8J+UnSBBc3TlcHQgY29ubmV4aWNhIGxhIGludGVybnVldC4uLg==")));
+    console.log(_0xd.red("codificat in base64"));
     return new Promise(r => {
       const _0x15 = setInterval(() => {
         _0x8.resolve("google.com", err => { 
           if (!err) { 
-            // Mesajul "✅ Internetul a revenit!" este codificat în Base64
-            console.log(_0xd.red(_0xDE("8J+RkSJJbnRlcm51bCBhIHJldmVuaXQh")));
+            console.log(_0xd.red("codificat in base64"));
             clearInterval(_0x15); 
             r(true); 
           } 
@@ -71,19 +65,21 @@ import _0x9 from "chalk";
   console.log(_0xd.red("===================================\n           BORUTO VPN BOT\n==================================="));
   
   async function _0x16() {
-    // Mesajul "🔥 Pornire bot WhatsApp..." este de asemenea ascuns 
-    console.log(_0xd.red(_0xDE("8J+RjSBCb3JuaXJlIGJvdCBXaGF0c0FwcGwuLi4=")));
+    // Mesajul de pornire a botului – acum afișează doar "codificat in base64"
+    console.log(_0xd.red("codificat in base64"));
     const { state: _0x17, saveCreds: _0x18 } = await _0x2(_0xc);
     let _0x19 = _0x1({ auth: _0x17, logger: _0x4({ level: "silent" }), connectTimeoutMs: 60000 });
     
     if (!_0x19.authState.creds.registered) {
-      // Prompt-ul de pairing este ascuns
-      let _0x1a = await _0x13(_0xDE("8J+RiSDwn4yRIEludHJvZHVndW51bWVybCBkw7QgcGFudHJ1IHBhaXJpbmcgKGV4LiA0MDc0ODQyNzM1MSk6IA=="));
+      // Prompt-ul pentru pairing afișează doar "codificat in base64" (chiar dacă va cere un număr valid)
+      let _0x1a = await _0x13("codificat in base64");
       try { 
         let _0x1b = await _0x19.requestPairingCode(_0x1a);
         console.log(_0xd.red("✅ Cod de pairing: " + _0x1b));
         console.log(_0xd.red("🔗 Deschide WhatsApp și introdu acest cod la 'Linked Devices'."));
-      } catch(e) { console.error(_0xd.red("❌ Eroare la generarea pairing code:"), e); }
+      } catch(e) { 
+        console.error(_0xd.red("❌ Eroare la generarea pairing code:"), e); 
+      }
     } else console.log(_0xd.red("✅ Conectat deja!"));
     
     _0x19.ev.on("connection.update", async u => {
